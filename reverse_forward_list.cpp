@@ -1,29 +1,37 @@
 #include <iostream>
 using namespace std;
 
+template<class T>
 struct node {
-    int data;
+    T data;
     node* next;
 
     node():data{},next{nullptr} {}
-    node(int d, node* ptr):data{d},next{ptr} {}
+    node(T d, node* ptr):data{d},next{ptr} {}
+    node(const node& n):node{n.d, n.next} {}
+    node& operator=(const node& n) {
+        data = n.data;
+        next = n.next;
+        return *this;
+    }
 };
 
+template<class T>
 struct list{
-    node* head;
+    node<T>* head;
 
     list():head{nullptr} {}
 
     ~list(){
         while(head) {
-            node* temp = head;
+            node<T>* temp = head;
             head = head->next;
             delete temp;
         }
     }
 
     void print() {
-        node* curr = head;
+        node<T>* curr = head;
         while(curr) {
             cout << curr->data << ' ';
             curr = curr->next;
@@ -32,8 +40,8 @@ struct list{
 
     void reverse() {
         if(!head)return;
-        node* curr = head->next;
-        node* prev = head;
+        node<T>* curr = head->next;
+        node<T>* prev = head;
         prev->next=nullptr;
         while(curr) {
             head = curr;
@@ -43,8 +51,8 @@ struct list{
         }
     }
 
-    void push(int i) {
-        node* temp = new node(i, head);
+    void push(T i) {
+        node<T>* temp = new node<T>(i, head);
         head = temp;
     }
 
@@ -52,7 +60,7 @@ struct list{
         int res =0;
         if(head) {
             res = head->data;
-            node* temp = head;
+            node<T>* temp = head;
             head = head->next;
             delete temp;
         }
@@ -61,7 +69,7 @@ struct list{
 };
 
 int main() {
-    list l;
+    list<int> l;
     l.reverse();
         for(int i=10;i>0;--i) {
                 l.push(i);
