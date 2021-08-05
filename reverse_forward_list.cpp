@@ -69,6 +69,7 @@ struct list{
 };
 
 int main() {
+	cout << "test" << endl;
     list<int> l;
     l.reverse();
         for(int i=10;i>0;--i) {
